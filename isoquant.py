@@ -4,8 +4,7 @@
 # Script: isoquant.py
 # Description: This script takes fasta files containing Pacbio reads supporting 
 # fusion transcripts and constructs transcript models. Results are saved in 
-# subdirectories with the same name as the input file. Run "conda activate 
-# isoquant" before use.
+# subdirectories with the same name as the input file. 
 # Usage: sbatch isoquant.py
 ################################################################################
 
@@ -26,7 +25,7 @@ def run_isoquant(fasta_file):
     output_dir = f"{base_name}.output"
     command = [
         "isoquant.py",
-        "--reference", "/zfs/jacobs/genomes/human/hg38/hg38.fa",
+        "--reference", "hg38.fa",
         "--fastq", fasta_file,
         "--data_type", "pacbio_ccs",
         "-o", output_dir
@@ -34,7 +33,7 @@ def run_isoquant(fasta_file):
     subprocess.run(command)
 
 if __name__ == "__main__":
-    fasta_dir = "/zfs/jacobs/Colette/fusion_transcripts/pacbio_variable_transcript_structure/fasta_pacbio"
+    fasta_dir = "fasta_pacbio"
     fasta_files = [os.path.join(fasta_dir, f) for f in os.listdir(fasta_dir) if f.endswith('.fasta')]
     
     print("starting isoquant")
