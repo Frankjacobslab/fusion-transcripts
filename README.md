@@ -286,14 +286,16 @@ conda (v24.3.0)
 
 #### `coding_potential_bubblechart.py`
 - Python (v3.9.17)
-- matplotlib.pyplot
+- matplotlib.pyplot (v3.9.0)
 
 #### `coding_potential_piechart.py`
 - Python (v3.9.17)  
-- matplotlib.pyplot
+- matplotlib.pyplot (v3.9.0)
+
 #### `Ribo-seq_funnelchart.py`
 - Python (v3.9.17)  
-- matplotlib.pyplot
+- matplotlib.pyplot (v3.9.0)
+
 ---
 
 ## List of Dependencies (All Scripts)
@@ -323,7 +325,8 @@ conda (v24.3.0)
     - subprocess (built-in)  
     - multiprocessing (built-in)  
     - csv (built-in)  
-    - **Note**: For `bowtie2_alignment` scripts, Python 3.8.19 is required.  
+    - **Note**: For `bowtie2_alignment` scripts, Python 3.8.19 is required.
+    - matplotlib.pyplot (v3.9.0)
 16. R (v4.3.3)  
     - tidyverse (v2.0.0)  
     - dplyr (v1.1.4)  
