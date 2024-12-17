@@ -138,7 +138,7 @@
 - Bash (v4.4.20(1)-release)  
 - Samtools (v1.17)  
 - Bedtools (v2.31.1)  
-- Perl (v5.26.3) (for chromosome name conversion)  
+- Perl (v5.26.3)  
 - grep (built-in v3.1)  
 - sed (built-in v4.5)  
 - SLURM Workload Manager (v23.11.10)  
