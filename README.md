@@ -1,5 +1,7 @@
 ## Workflow Overview
 
+### Fusion Detection: Short Read RNA-Seq Data
+
 1. Run FusionCatcher Analysis (fusioncatcher_run.sh):  
    - Processes a list of directories containing FASTQ files.  
    - Executes the FusionCatcher program to detect fusion genes.  
@@ -20,12 +22,16 @@
 
 3. Count Reads Mapped to Fusion Transcripts (bowtie2_counts.py):  
    - Counts the number of reads mapped to each fusion transcript for each sample using the FASTA files generated from Bowtie2 alignments.  
-   - Outputs results as Counts_pivot_[date+time].txt.
+   - Outputs results as Counts_pivot_[date+time].txt.  
    - Results are used as input for FusionCatcher_processing.R and variable_fusion_expression.R.
+
+---
+
+### Genotyping: WGS Data
 
 4. Perform Coverage Analysis for WGS BAM Files (coverage_analysis.sh):  
    - Analyzes coverage in specified regions of HipSci WGS BAM files.  
-   - This step is required in order to cross-reference genomic copy number in specific regions with fusion transcript expression.  
+   - This step is required to cross-reference genomic copy number in specific regions with fusion transcript expression.  
    - Requires the following files:  
      - CSV file (hipsci-files_wgs_cram.csv) with metadata for cell lines (file provided here; obtained from hipsci.org).  
      - Optional text file (cell_lines.txt) listing specific cell lines to analyze.  
@@ -42,57 +48,43 @@
    - Requires BAM files generated from coverage_analysis.sh.  
    - Results are used as input for FusionCatcher_processing.R and variable_fusion_expression.R.
 
-7. Construct Transcript Models (isoquant.py):  
-   - Uses FASTA files containing PacBio reads supporting fusion transcripts to construct transcript models.  
-   - Saves results in subdirectories corresponding to the input file names.
+---
 
-8. FusionCatcher Processing (FusionCatcher_processing.R):  
+### Data Processing and Visualization
+
+7. FusionCatcher Processing (FusionCatcher_processing.R):  
    - Takes outputs from all previous steps and combines them for visualization.  
 
-9. Analyze Inter-Individual Variation in Fusion Transcript Expression (variable_fusion_expression.R):  
+8. Analyze Inter-Individual Variation in Fusion Transcript Expression (variable_fusion_expression.R):  
    - Focuses on fusion transcripts with inter-individual variation.  
    - Combines outputs from previous steps for targeted visualization.
 
 ---
 
+### Fusion Validation: Long Read RNA-Seq Data
+
+9. Construct Transcript Models (isoquant.py):  
+   - Uses FASTA files containing PacBio reads supporting fusion transcripts to construct transcript models.  
+   - Saves results in subdirectories corresponding to the input file names.
+
+---
+
 ## Repository Contents
 
-### Fusion Gene Detection
-- fusioncatcher_run.sh:  
-  Runs FusionCatcher on a list of directories containing FASTQ files.  
-  Outputs FusionCatcher results in structured directories.
+### Fusion Gene Detection: Short Read RNA-Seq Data
+- fusioncatcher_run.sh  
+- bowtie2_alignment_mayo.py  
+- bowtie2_alignment_hipsci.py  
+- bowtie2_counts.py  
 
-### Bowtie2 Alignment and Read Processing
-- bowtie2_alignment_mayo.py:  
-  Aligns reads to fusion transcript junction sequences for the Mayo RNA sequencing dataset.
+### Genotyping: WGS Data
+- coverage_analysis.sh  
+- calculate_ratios.py  
+- H1H2_SNP_genotyping.py  
 
-- bowtie2_alignment_hipsci.py:  
-  Aligns reads to fusion transcript junction sequences for the HipSci RNA sequencing dataset.
+### Data Processing and Visualization
+- FusionCatcher_processing.R  
+- variable_fusion_expression.R  
 
-- bowtie2_alignment_hipsci_controls.py:  
-  Aligns reads to fusion transcript junction sequences for HipSci control samples.
-
-- bowtie2_counts.py:  
-  Counts the number of reads mapped to each fusion transcript for each sample.  
-  Outputs the results in a pivot table format.
-
-### Coverage Analysis and Genotyping
-- coverage_analysis.sh:  
-  Performs coverage analysis for WGS BAM files in specified regions.  
-  Requires metadata and BED files.
-
-- calculate_ratios.py:  
-  Combines read counts from multiple VCF files to calculate ratios of read counts for specific regions.
-
-- H1H2_SNP_genotyping.py:  
-  Performs SNP genotyping for H1 and H2 cell lines using BAM files.
-
-### Transcript Modeling and Visualization
-- isoquant.py:  
-  Constructs transcript models from PacBio reads supporting fusion transcripts.  
-
-- FusionCatcher_processing.R:  
-  Combines outputs from various scripts for comprehensive visualization.  
-
-- variable_fusion_expression.R:  
-  Focuses on visualizing fusion transcripts with inter-individual variation.
+### Fusion Validation: Long Read RNA-Seq Data
+- isoquant.py  
