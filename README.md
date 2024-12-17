@@ -7,10 +7,9 @@
 
 2. Align Reads to Fusion Transcript Junction Sequences:  
    - Takes fusion transcripts identified by FusionCatcher and maps supporting reads to the junction sequences using Bowtie2 as a custom reference.  
-   - This step uses three different scripts to accommodate the naming conventions of specific datasets:  
+   - This step uses two different scripts to accommodate the naming conventions of specific datasets:  
      - bowtie2_alignment_mayo.py: Designed for the Mayo RNA sequencing study.  
      - bowtie2_alignment_hipsci.py: Designed for the HipSci RNA sequencing dataset.  
-     - bowtie2_alignment_hipsci_controls.py: For the HipSci control dataset.  
    - Steps performed by these scripts:
      - Align reads to indexed fusion transcripts using Bowtie2.  
      - Convert SAM to BAM files, sort, and index them.  
