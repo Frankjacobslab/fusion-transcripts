@@ -8,7 +8,6 @@
 # in separate directories for SAM/BAM files and FASTA files for each fusion 
 # transcript and sample combination. This version uses parallel processing for
 # each sample.
-# Use conda activate bowtie2_py38 before running
 # Usage: sbatch bowtie2_alignment_hipsci.py
 ################################################################################
 
@@ -28,10 +27,10 @@ from multiprocessing import Pool
 import math
 
 # Paths to files and tools
-transcripts_fasta = "FT_sequences_86bp_extraKANSL1.fasta"
+transcripts_fasta = "FT_sequences_86bp.fasta"
 fastq_list_file = "fastq_files.txt"  # Text file with list of fastq.gz files
 fastq_dir = "fastq"  # Subdirectory containing fastq.gz files
-bowtie2_index_base = "FT_sequences_86bp_extraKANSL1_index"
+bowtie2_index_base = "FT_sequences_86bp_index"
 output_dir = "bowtie2_aligned_reads"
 fasta_dir = os.path.join(output_dir, "fasta")
 sam_bam_dir = os.path.join(output_dir, "sam_bam")
