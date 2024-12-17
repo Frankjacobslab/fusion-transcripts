@@ -89,3 +89,144 @@
 - FusionCatcher_processing.R  
 - variable_fusion_expression.R  
 
+---
+
+## Dependencies
+
+### Fusion Gene Detection: Short Read RNA-Seq Data
+#### `fusioncatcher_run.sh`
+- FusionCatcher  
+- Miniconda  
+- GNU Parallel  
+- Bash  
+- SLURM Workload Manager  
+
+#### `bowtie2_alignment_mayo.py` and `bowtie2_alignment_hipsci.py`
+- Python  
+- Bowtie2  
+- Samtools  
+- Pysam  
+- Biopython  
+- Multiprocessing (built-in Python)  
+- gzip (built-in Python)  
+- Bash  
+- SLURM Workload Manager  
+
+#### `bowtie2_counts.py`
+- Python  
+- glob (built-in)  
+- datetime (built-in)  
+- collections (built-in)  
+- Bash  
+- SLURM Workload Manager  
+
+---
+
+### Fusion Validation: Long Read RNA-Seq Data
+#### `isoquant.py`
+- Python  
+- IsoQuant  
+- Multiprocessing (built-in)  
+- Subprocess (built-in)  
+- Bash  
+- SLURM Workload Manager  
+
+---
+
+### Genotyping: WGS Data
+#### `coverage_analysis.sh`
+- Bash  
+- Samtools  
+- Bedtools  
+- Perl (for chromosome name conversion)  
+- grep (built-in)  
+- sed (built-in)  
+- SLURM Workload Manager  
+
+#### `calculate_ratios.py`
+- Python  
+- collections (built-in)  
+- os (built-in)  
+- sys (built-in)  
+
+#### `H1H2_SNP_genotyping.py`
+- Python  
+- Samtools  
+- BCFtools  
+- pyVCF  
+- glob (built-in)  
+- subprocess (built-in)  
+- csv (built-in)  
+
+---
+
+### Data Processing and Visualization
+#### `FusionCatcher_processing.R`
+- R  
+- tidyverse  
+- dplyr  
+- ggplot2  
+- gplots  
+- tibble  
+- GenomicRanges  
+- IRanges  
+- biomaRt  
+- karyoploteR  
+- readxl  
+- writexl  
+
+#### `variable_fusion_expression.R`
+- R  
+- dplyr  
+- tidyr  
+- ggplot2  
+- stringr  
+- ggrepel  
+- car  
+- FSA  
+
+---
+
+## List of Dependencies (All Scripts)
+1. FusionCatcher  
+2. Miniconda  
+3. GNU Parallel  
+4. Bowtie2  
+5. Samtools  
+6. BCFtools  
+7. Bedtools  
+8. IsoQuant  
+9. pyVCF  
+10. Perl  
+11. Bash  
+12. grep (built-in)  
+13. sed (built-in)  
+14. SLURM Workload Manager  
+15. Python  
+    - Pysam  
+    - Biopython  
+    - glob (built-in)  
+    - datetime (built-in)  
+    - collections (built-in)  
+    - gzip (built-in)  
+    - os (built-in)  
+    - sys (built-in)  
+    - subprocess (built-in)  
+    - multiprocessing (built-in)  
+    - csv (built-in)  
+16. R  
+    - tidyverse  
+    - dplyr  
+    - ggplot2  
+    - gplots  
+    - tibble  
+    - GenomicRanges  
+    - IRanges  
+    - biomaRt  
+    - karyoploteR  
+    - readxl  
+    - writexl  
+    - stringr  
+    - ggrepel  
+    - car  
+    - FSA  
