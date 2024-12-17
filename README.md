@@ -227,8 +227,8 @@
 - Bash (v4.4.20(1)-release)  
 
 #### `final_posctrl_creation_4.py`
-- Python (v3.9.17) 
-conda (v24.3.0) 
+- Python (v3.9.17)
+- conda (v24.3.0) 
 
 ---
 
@@ -286,6 +286,7 @@ conda (v24.3.0)
 
 #### `coding_potential_bubblechart.py`
 - Python (v3.9.17)
+- pandas (v2.0.2)
 - matplotlib.pyplot (v3.9.0)
 
 #### `coding_potential_piechart.py`
@@ -293,8 +294,8 @@ conda (v24.3.0)
 - matplotlib.pyplot (v3.9.0)
 
 #### `Ribo-seq_funnelchart.py`
-- Python (v3.9.17)  
-- matplotlib.pyplot (v3.9.0)
+- Python (v3.9.17)
+- plotly (v5.23.0)
 
 ---
 
@@ -327,6 +328,7 @@ conda (v24.3.0)
     - csv (built-in)  
     - **Note**: For `bowtie2_alignment` scripts, Python 3.8.19 is required.
     - matplotlib.pyplot (v3.9.0)
+    - plotly (v5.23.0)
 16. R (v4.3.3)  
     - tidyverse (v2.0.0)  
     - dplyr (v1.1.4)  
@@ -343,6 +345,5 @@ conda (v24.3.0)
     - ggrepel (v0.9.6)  
     - car (v3.1-3)  
     - FSA (v0.9.5)  
-
 
 ---
