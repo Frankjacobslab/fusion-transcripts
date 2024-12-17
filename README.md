@@ -95,65 +95,65 @@
 
 ### Fusion Gene Detection: Short Read RNA-Seq Data
 #### `fusioncatcher_run.sh`
-- FusionCatcher  
-- Miniconda  
-- GNU Parallel  
-- Bash  
-- SLURM Workload Manager  
+- FusionCatcher (v1.33)  
+- conda (v24.3.0)  
+- GNU Parallel (v20171222)  
+- Bash (v4.4.20(1)-release)  
+- SLURM Workload Manager (v23.11.10)  
 
 #### `bowtie2_alignment_mayo.py` and `bowtie2_alignment_hipsci.py`
-- Python  
-- Bowtie2  
-- Samtools  
+- Python (v3.8.19) *Note: Requires Python 3.8.19 for compatibility.*  
+- Bowtie2 (v2.4.2)  
+- Samtools (v1.17)  
 - Pysam  
 - Biopython  
 - Multiprocessing (built-in Python)  
 - gzip (built-in Python)  
-- Bash  
-- SLURM Workload Manager  
+- Bash (v4.4.20(1)-release)  
+- SLURM Workload Manager (v23.11.10)  
 
 #### `bowtie2_counts.py`
-- Python  
+- Python (v3.9.17)  
 - glob (built-in)  
 - datetime (built-in)  
 - collections (built-in)  
-- Bash  
-- SLURM Workload Manager  
+- Bash (v4.4.20(1)-release)  
+- SLURM Workload Manager (v23.11.10)  
 
 ---
 
 ### Fusion Validation: Long Read RNA-Seq Data
 #### `isoquant.py`
-- Python  
-- IsoQuant  
+- Python (v3.9.17)  
+- IsoQuant (v3.1.2)  
 - Multiprocessing (built-in)  
 - Subprocess (built-in)  
-- Bash  
-- SLURM Workload Manager  
+- Bash (v4.4.20(1)-release)  
+- SLURM Workload Manager (v23.11.10)  
 
 ---
 
 ### Genotyping: WGS Data
 #### `coverage_analysis.sh`
-- Bash  
-- Samtools  
-- Bedtools  
-- Perl (for chromosome name conversion)  
-- grep (built-in)  
-- sed (built-in)  
-- SLURM Workload Manager  
+- Bash (v4.4.20(1)-release)  
+- Samtools (v1.17)  
+- Bedtools (v2.31.1)  
+- Perl (v5.26.3) (for chromosome name conversion)  
+- grep (built-in v3.1)  
+- sed (built-in v4.5)  
+- SLURM Workload Manager (v23.11.10)  
 
 #### `calculate_ratios.py`
-- Python  
+- Python (v3.9.17)  
 - collections (built-in)  
 - os (built-in)  
 - sys (built-in)  
 
 #### `H1H2_SNP_genotyping.py`
-- Python  
-- Samtools  
-- BCFtools  
-- pyVCF  
+- Python (v3.9.17)  
+- Samtools (v1.17)  
+- BCFtools (v1.17)  
+- pyVCF (v0.6.8)  
 - glob (built-in)  
 - subprocess (built-in)  
 - csv (built-in)  
@@ -162,47 +162,47 @@
 
 ### Data Processing and Visualization
 #### `FusionCatcher_processing.R`
-- R  
-- tidyverse  
-- dplyr  
-- ggplot2  
-- gplots  
-- tibble  
-- GenomicRanges  
-- IRanges  
-- biomaRt  
-- karyoploteR  
-- readxl  
-- writexl  
+- R (v4.3.3)  
+- tidyverse (v2.0.0)  
+- dplyr (v1.1.4)  
+- ggplot2 (v3.5.1)  
+- gplots (v3.2.0)  
+- tibble (v3.2.1)  
+- GenomicRanges (v1.52.1)  
+- IRanges (v2.34.1)  
+- biomaRt (v2.56.1)  
+- karyoploteR (v1.26.0)  
+- readxl (v1.4.3)  
+- writexl (v1.5.1)  
 
 #### `variable_fusion_expression.R`
-- R  
-- dplyr  
-- tidyr  
-- ggplot2  
-- stringr  
-- ggrepel  
-- car  
-- FSA  
+- R (v4.3.3)  
+- dplyr (v1.1.4)  
+- tidyr (v1.3.0)  
+- ggplot2 (v3.5.1)  
+- stringr (v1.5.1)  
+- ggrepel (v0.9.6)  
+- car (v3.1-3)  
+- FSA (v0.9.5)  
 
 ---
 
 ## List of Dependencies (All Scripts)
-1. FusionCatcher  
-2. Miniconda  
-3. GNU Parallel  
-4. Bowtie2  
-5. Samtools  
-6. BCFtools  
-7. Bedtools  
-8. IsoQuant  
-9. pyVCF  
-10. Perl  
-11. Bash  
-12. grep (built-in)  
-13. sed (built-in)  
-14. SLURM Workload Manager  
-15. Python  
+1. FusionCatcher (v1.33)  
+2. conda (v24.3.0)  
+3. GNU Parallel (v20171222)  
+4. Bowtie2 (v2.4.2)  
+5. Samtools (v1.17)  
+6. BCFtools (v1.17)  
+7. Bedtools (v2.31.1)  
+8. IsoQuant (v3.1.2)  
+9. pyVCF (v0.6.8)  
+10. Perl (v5.26.3)  
+11. Bash (v4.4.20(1)-release)  
+12. grep (built-in v3.1)  
+13. sed (built-in v4.5)  
+14. SLURM Workload Manager (v23.11.10)  
+15. Python (v3.9.17)  
     - Pysam  
     - Biopython  
     - glob (built-in)  
@@ -214,19 +214,21 @@
     - subprocess (built-in)  
     - multiprocessing (built-in)  
     - csv (built-in)  
-16. R  
-    - tidyverse  
-    - dplyr  
-    - ggplot2  
-    - gplots  
-    - tibble  
-    - GenomicRanges  
-    - IRanges  
-    - biomaRt  
-    - karyoploteR  
-    - readxl  
-    - writexl  
-    - stringr  
-    - ggrepel  
-    - car  
-    - FSA  
+    - **Note**: For `bowtie2_alignment` scripts, Python 3.8.19 is required.  
+16. R (v4.3.3)  
+    - tidyverse (v2.0.0)  
+    - dplyr (v1.1.4)  
+    - ggplot2 (v3.5.1)  
+    - gplots (v3.2.0)  
+    - tibble (v3.2.1)  
+    - GenomicRanges (v1.52.1)  
+    - IRanges (v2.34.1)  
+    - biomaRt (v2.56.1)  
+    - karyoploteR (v1.26.0)  
+    - readxl (v1.4.3)  
+    - writexl (v1.5.1)  
+    - stringr (v1.5.1)  
+    - ggrepel (v0.9.6)  
+    - car (v3.1-3)  
+    - FSA (v0.9.5)  
+
