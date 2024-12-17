@@ -3,7 +3,7 @@
 # transcripts spanning exon-exon junctions. 
 ############################################################################
 
-#SCRIPT 0
+#SCRIPT 0: final_posctrl_creation_0.sh
 
 #file needed: 
 GENCODEV44_knownGene_introns.bed #for making the datasets
@@ -40,7 +40,7 @@ awk 'NR==FNR {id[$4]; next} $4 in id' filtered_merged_output_no_alt.bed 43bp_fil
 
 awk 'NR==FNR {id[$4]; next} $4 in id' filtered_merged_output_no_alt.bed 43bp_filtered_sorted_end_only.bed  > 43bp_final_end_only.bed
 
-#SCRIPT 0.1
+#SCRIPT 0.1: python_posctrl_to_make_introns_1.py
 import pandas as pd
 
 # Function to read the BED file and process the coordinates
@@ -82,7 +82,7 @@ end_output = "/Users/avanini/riboseq/Fusion_Transcripts_clean_last/positive_cont
 # Process the BED file
 process_bed_file(input_bed, start_output, end_output)
 
-#SCRIPT 1
+#SCRIPT 1: final_posctrl_creation_1.sh
 
 #!/usr/bin/bash
 
@@ -135,7 +135,7 @@ do
     awk -F'[>_]' '{for(i=1;i<=NF;i++){if($i=="intron"){print $(i-1); break}}}' ${SET_NAME}_random_common_names.bed > ${SET_NAME}_random_ENST_ID.txt
 done
 
-#SCRIPT 2:
+#SCRIPT 2: final_posctrl_creation_2.py
 
 def read_ensg_enst_mapping(mapping_file):
     """Read the mapping of ENSG IDs to ENST IDs from the given file."""
@@ -192,7 +192,7 @@ for i in range(1, 11):
     # Update the BED file with ENSG IDs
     update_bed_file_with_ensg_ids(mapping_file, bed_file, output_file)
 
-#SCRIPT 3: 
+#SCRIPT 3: final_posctrl_creation_3.sh
 #!/bin/bash
 
 for i in {1..10}; do
@@ -242,7 +242,8 @@ for i in {1..10}; do
 done
 
 
-#SCRIPT 4: 
+#SCRIPT 4: final_posctrl_creation_4.py
+
 def merge_fasta_sequences(file1, file2, output_file):
     with open(file1, 'r') as f1, open(file2, 'r') as f2, open(output_file, 'w') as out:
         while True:
