@@ -35,7 +35,7 @@
 
 ---
 
-## Fusion Peptide Detection: Ribosome Profiling Data
+### Fusion Peptide Detection: Ribosome Profiling Data
 
 5. Generation of Control Transcripts for Random Sampling
 - Retrieve Exon and Intron Coordinates
