@@ -1,6 +1,6 @@
 ## Workflow Overview
 
-### Fusion Detection: Short Read RNA-Seq Data
+### Fusion Transcript Detection: Short Read RNA-Seq Data
 
 1. Run FusionCatcher Analysis (fusioncatcher_run.sh):  
    - Processes a list of directories containing FASTQ files.  
@@ -27,7 +27,7 @@
 
 ---
 
-### Fusion Validation: Long Read RNA-Seq Data
+### Fusion Transcript Validation: Long Read RNA-Seq Data
 
 4. Construct Transcript Models (isoquant.py):  
    - Uses FASTA files containing PacBio reads supporting fusion transcripts to construct transcript models.  
@@ -104,7 +104,6 @@
 12. Analyze Inter-Individual Variation in Fusion Transcript Expression (variable_fusion_expression.R):  
    - Focuses on fusion transcripts with inter-individual variation.  
    - Combines outputs from previous steps for targeted visualization.
-
 
 13. Coding potential bubble and pie chart (coding_potential_bubblechart.py, coding_potential_piechart.py)
    - Number of fusion transcripts with distinct protein-coding potential detected in human brain RNA-seq, categorized by upstream and downstream fusion locations
