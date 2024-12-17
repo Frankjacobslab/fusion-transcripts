@@ -14,7 +14,6 @@
 # Usage: sbatch coverage_analysis.sh
 # Notes: 
 # Manually adjust the samtools view regions in the script (line 134) as needed for your analysis.
-# Use "conda activate genotyping" to ACTIVATE CORRECT ENVIRONMENT before running.
 # Duplicate the first cell line in the cell_lines.txt file.
 # Follow with calculate_ratios.py.
 ################################################################################
