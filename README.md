@@ -35,7 +35,7 @@
 
 ---
 
-## Ribo-Seq Analysis: Investigating Coding Potential of Fusion Transcripts through Ribosomal Profiling Data
+## Fusion Peptide Detection: Ribosome Profiling Data
 
 5. Generation of Control Transcripts for Random Sampling
 - Retrieve Exon and Intron Coordinates
