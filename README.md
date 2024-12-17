@@ -35,6 +35,44 @@
 
 ---
 
+## Ribo-Seq Analysis: Investigating Coding Potential of Fusion Transcripts through Ribosomal Profiling Data
+
+5. Process Ribo-Seq Reads (Ribo-seq_FT.py):
+   - Processes a `.fastq` file containing Ribo-Seq (RS) reads.
+   - Aligns reads to indexed transcripts using Bowtie2.
+   - Converts SAM to BAM files, sorts, and indexes the BAM files.
+   - Extracts reads for each transcript.
+   - Saves results in structured directories:
+     - SAM/BAM files for each fusion transcript and sample combination.
+     - FASTA files with headers assigned based on the gene name the RS reads matched.
+  - Filters out RS reads not spanning the fusion junction of the Fusion Transcripts (FT) they matched.
+
+6. Positive control filtering with BlastN (Ribo-seq_pos_ctrl_BlastN.py):
+   - Screens positively selected RS reads mapping to control transcripts using BlastN.
+   - Determines whether the reads match only the corrensponding gene (same ENSG).
+
+7. Generation of Control Transcripts for Random Sampling
+- Retrieve Exon and Intron Coordinates
+     - Script: `final_posctrl_creation_0.sh` (Bash) and `final_posctrl_creation_python_to_run_with_0.py` (Python)
+     - Input: GENCODE v44 file
+     - Output: Extracts exon and intron coordinates for all genes.
+- Shuffle and Select Random Exon Junctions
+     - Script: `final_posctrl_creation_1.sh` (Bash)
+     - Randomly selects 717 exon junctions (43bp) and retrieves FASTA sequences.
+     - Additional Step: Retrieve ENSG IDs using Ensembl BioMart ([https://www.ensembl.org/biomart](https://www.ensembl.org/biomart/martview/e3d502e53e5b353cf21726a897d51ac4)).
+     - Manually add missing ENSG names.
+- Map ENSG Names to ENST Names
+     - Script: `final_posctrl_creation_2.py` (Python)
+     - Matches specific ENST names to their corresponding ENSG names.
+- Create FASTA File with Annotated Sequences
+     - Script: `final_posctrl_creation_3.sh` (Bash)
+     - Produces FASTA files with ENSG names and their corresponding sequences.
+- Generate Final FASTA Files
+   - Script: `final_posctrl_creation_4.py` (Python)
+   - Merges 43bp end and start sequences to produce 86bp final FASTA files.
+
+---
+
 ### Genotyping: WGS Data
 
 5. Perform Coverage Analysis for WGS BAM Files (coverage_analysis.sh):  
@@ -67,6 +105,13 @@
    - Focuses on fusion transcripts with inter-individual variation.  
    - Combines outputs from previous steps for targeted visualization.
 
+
+10. Coding potential bubble and pie chart (coding_potential_bubblechart.py, coding_potential_piechart.py)
+   - Number of fusion transcripts with distinct protein-coding potential detected in human brain RNA-seq, categorized by upstream and downstream fusion locations
+ 
+11. Ribo-seq data Funnel Chart (fig_3F_funnelchart.py)
+   - Numbers of fusion transcripts and randomly selected control transcripts detected in ribosome profiling (Ribo-seq) data.
+
 ---
 
 ## Repository Contents
@@ -79,6 +124,10 @@
 
 ### Fusion Validation: Long Read RNA-Seq Data
 - isoquant.py  
+
+### Ribo-Seq Analysis:
+- Ribo-seq_FT.py
+- Ribo-seq_pos_ctrl_BlastN.py
 
 ### Genotyping: WGS Data
 - coverage_analysis.sh  
@@ -130,6 +179,13 @@
 - Subprocess (built-in)  
 - Bash (v4.4.20(1)-release)  
 - SLURM Workload Manager (v23.11.10)  
+
+---
+
+### Ribo-Seq Analysis:
+#### `Ribo-seq_FT.py`
+
+#### `Ribo-seq_pos_ctrl_BlastN.py`
 
 ---
 
