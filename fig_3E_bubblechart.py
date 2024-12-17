@@ -17,7 +17,7 @@ df = pd.DataFrame(pair_counts.items(), columns=["Pair", "Count"])
 df["Transcript1"] = df["Pair"].apply(lambda x: x[0])
 df["Transcript2"] = df["Pair"].apply(lambda x: x[1])
 
-# Define the desired order of categories
+# Order of categories
 categories_order = [
     'CDS', 'UTR', 'exonic(no-known-CDS)', 'intronic'
 ]
@@ -27,7 +27,7 @@ cat_type = CategoricalDtype(categories=categories_order, ordered=True)
 df["Transcript1"] = df["Transcript1"].astype(cat_type)
 df["Transcript2"] = df["Transcript2"].astype(cat_type)
 
-# Sort the DataFrame to ensure the order is applied in the plot
+# Sort the DataFrame
 df = df.sort_values(by=["Transcript1", "Transcript2"])
 
 # Create the bubble chart
