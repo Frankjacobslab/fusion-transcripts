@@ -5,7 +5,7 @@ rm(list=ls())
 library(readxl)
 library(writexl)
 library(GenomicRanges)
-#library(dplyr)
+library(dplyr)
 library(biomaRt)
 library(karyoploteR)
 library(tidyverse)
@@ -14,7 +14,7 @@ library(ggplot2)
 library(tibble)
 
 # Set the working directory to the location where your files (of the type *final-list_candidate-fusion-genes.txt) are stored
-setwd("/Users/colettemoses/Desktop/Good_scripts/fusioncatcher_new/final_output")
+setwd("/path/to/working/directory/")
 
 # Create an empty list to store the data frames
 data_frames <- list()
@@ -233,7 +233,7 @@ collapsed_by_FusionID_filtered <- collapsed_by_FusionID_filtered[common_mapping,
 ## Filter out fusion transcripts intersecting with RepeatMasker
 
 # Read the repeatmasker bed file and convert coordinates to GRanges object
-repeatmasker_bed <- read.table("/Users/colettemoses/Desktop/Good_scripts/FusionCatcher/hg38_RepeatMasker.bed", header = FALSE)
+repeatmasker_bed <- read.table("/path/to/bed/file/hg38_RepeatMasker.bed", header = FALSE) # bed file downloaded from the UCSC Genome Browser RepeatMasker track
 colnames(repeatmasker_bed) <- c("chrom", "start", "end")
 
 repeatmasker_ranges <- GRanges(seqnames = repeatmasker_bed$chrom,
@@ -297,7 +297,7 @@ cat("Interchromosomal fusions:", interchromosomal_count_after, "(", interchromos
 ## Perform intersection of fusion transcripts and segmental duplications
 
 # Read the seg dups bed file and convert coordinates to GRanges object
-segdups_bed <- read.table("/Users/colettemoses/Desktop/Good_scripts/FusionCatcher/hg38_genomicSuperDups.bed", header = FALSE)
+segdups_bed <- read.table("/path/to/segdups/file/hg38_genomicSuperDups.bed", header = FALSE) # bed file downloaded from the UCSC Genome Browser Segmental Duplications track
 colnames(segdups_bed) <- c("chrom", "start", "end")
 
 segdups_ranges <- GRanges(seqnames = segdups_bed$chrom,
@@ -352,7 +352,7 @@ nonRT_condition <- nonRT_condition & collapsed_by_FusionID_nonreadthrough$Intrac
 
 collapsed_by_FusionID_nonreadthrough <- collapsed_by_FusionID_nonreadthrough[nonRT_condition, ]
 
-############################ RUN FROM HERE TO REPEAT WITH NEW BOWTIE SEARCH RESULTS ############################ 
+############################ Adding in read counts from bowtie2 mapping ############################ 
 
 ## Remove fusion transcripts detected in only one individual, and collapse by FusionPair (optional)
 collapsed_by_FusionID_filtered_rmsk_2ormore <- collapsed_by_FusionID_filtered_rmsk[collapsed_by_FusionID_filtered_rmsk$`Present in n samples` > 1, ]
@@ -365,42 +365,17 @@ collapsed_by_FusionPair_nonreadthrough_2ormore <- collapsed_by_FusionID_nonreadt
 
 ## Adding in bowtie2 results for all 660 fusions
 
-bowtie2_660_results_human <- read.table("/Users/colettemoses/Desktop/Good_scripts/bowtie2/Counts_pivot_2024-06-28_10-54-50_mayo717.txt", header = TRUE, sep = "\t", stringsAsFactors = FALSE)
-bowtie2_660_results_hipsci <- read.table("/Users/colettemoses/Desktop/Good_scripts/bowtie2/Combined_Counts_pivot_2024-07-02_07-55-58.txt", header = TRUE, sep = "\t", stringsAsFactors = FALSE)
-# bowtie2_660_results_comparative1 <- read.table("/Users/colettemoses/Desktop/Good_scripts/bowtie2/Counts_pivot_2024-07-02_07-31-48_comparative_717_newersamples.txt", header = TRUE, sep = "\t", stringsAsFactors = FALSE)
-# bowtie2_660_results_comparative2 <- read.table("/Users/colettemoses/Desktop/Good_scripts/bowtie2/Counts_pivot_2024-07-02_11-06-48_comparative_717_oldersamples.txt", header = TRUE, sep = "\t", stringsAsFactors = FALSE)
-# bowtie2_660_results_comparative <- full_join(bowtie2_660_results_comparative1, bowtie2_660_results_comparative2, by = "Fusion_Transcript")
-bowtie2_660_results_comparative <- read.table("/Users/colettemoses/Desktop/Good_scripts/bowtie2/Counts_pivot_2024-07-04_15-53-21_comparative_171_multiscore.txt", header = TRUE, sep = "\t", stringsAsFactors = FALSE)
+bowtie2_660_results_mayo <- read.table("/path/to/mayoRNAseq/counts/file/Counts_pivot_[date-time].txt", header = TRUE, sep = "\t", stringsAsFactors = FALSE)
+bowtie2_660_results_hipsci <- read.table("/path/to/hipsciRNAseq/counts/file/Counts_pivot_[date-time].txt", header = TRUE, sep = "\t", stringsAsFactors = FALSE)
+bowtie2_660_results_comparative <- read.table("/path/to/comparativeRNAseq/counts/file/Counts_pivot_[date-time].txt", header = TRUE, sep = "\t", stringsAsFactors = FALSE)
 
 # Choose (uncomment) one of the 3 options below:
-
-# 1
-# Merge the datasets, first checking all fusions are identical
-bowtie2_660_results_comparative <- subset(bowtie2_660_results_comparative, Fusion_Transcript != "KANSL1_LRRC37A3_ex5")
-identical(bowtie2_660_results_human$Fusion_Transcript, bowtie2_660_results_comparative$Fusion_Transcript)
-# # Columns present in bowtie2_660_results_human but not in bowtie2_660_results_comparative
-# missing_in_comparative <- setdiff(colnames(bowtie2_660_results_human), colnames(bowtie2_660_results_comparative))
-# print(missing_in_comparative)
-# # Columns present in bowtie2_660_results_comparative but not in bowtie2_660_results_human
-# missing_in_human <- setdiff(colnames(bowtie2_660_results_comparative), colnames(bowtie2_660_results_human))
-# print(missing_in_human)
-# bowtie2_660_results_comparative <- bowtie2_660_results_comparative[, -c(662, 663)]
-# identical(colnames(bowtie2_660_results_human), colnames(bowtie2_660_results_comparative))
-# Perform join
-bowtie2_660_results <- full_join(bowtie2_660_results_human, bowtie2_660_results_comparative, by = "Fusion_Transcript")
-
-# # 2
-bowtie2_660_results <- (bowtie2_660_results_comparative)
-
-# 3
-bowtie2_660_results <- (bowtie2_660_results_human)
-# OR
-bowtie2_660_results <- (bowtie2_660_results_hipsci)
+# bowtie2_660_results <- (bowtie2_660_results_mayo)
+# bowtie2_660_results <- (bowtie2_660_results_hipsci)
+# bowtie2_660_results <- (bowtie2_660_results_comparative)
 
 colnames(bowtie2_660_results) <- sub("X", "", colnames(bowtie2_660_results)) # Mayo only
 colnames(bowtie2_660_results)[1] <- "Fusion_Transcript_Name"
-# To remove "KANSL1_ex5" if necessary
-# bowtie2_660_results <- bowtie2_660_results[-334,]
 
 # Convert columns to numeric where necessary (except Fusion_Transcript_Name)
 bowtie2_660_results[, -1] <- lapply(bowtie2_660_results[, -1], as.numeric)
@@ -431,38 +406,16 @@ collapsed_by_FusionID_filtered_rmsk_2ormore <- left_join(collapsed_by_FusionID_f
 collapsed_by_FusionID_nonreadthrough_2ormore <- left_join(collapsed_by_FusionID_nonreadthrough_2ormore, bowtie2_660_results_summarised,
                                                          by = c("FusionID" = "Fusion_Transcript_Name"))
 
-# Make sure to discount the summary statistics in collapsed_by_FusionID_filtered_rmsk_2ormore and collapsed_by_FusionID_nonreadthrough_2ormore
-# if you have merged both the human and cross-species data
-
 ## Write the data frames to Excel files
 
-original_file_path <- "/Users/colettemoses/Desktop/Good_scripts/fusioncatcher_new/Mayo_FusionCatcher_compiled_2ormore_v2.xlsx"
+original_file_path <- "/path/to/output/file/"
 write_xlsx(list(collapsed_by_FusionID_filtered_rmsk_2ormore), original_file_path, col_names = TRUE)
 
-# nonRT_file_path <- "/Users/colettemoses/Desktop/Good_scripts/FusionCatcher/Mayo_FusionCatcher_nonreadthrough.xlsx"
+# nonRT_file_path <- "/path/to/output/file/"
 # write_xlsx(list(collapsed_by_FusionID_nonreadthrough), nonRT_file_path, col_names = TRUE)
 
-nonRT_2ormore_file_path <- "/Users/colettemoses/Desktop/Good_scripts/FusionCatcher/Mayo_FusionCatcher_nonreadthrough_2ormore_plusbowtie2.xlsx"
+nonRT_2ormore_file_path <- "/path/to/output/file/"
 write_xlsx(list(collapsed_by_FusionID_nonreadthrough_2ormore), nonRT_2ormore_file_path, col_names = TRUE)
-
-# # Generate FASTA file of fusion sequences to be used for BLAT
-# 
-# writeFASTA <- function(file, fusion_data, append = FALSE) {
-#   mode <- ifelse(append, "a", "w")  # Determine file writing mode
-#   
-#   # Open the file in the specified mode
-#   con <- file(file, open = mode)
-#   
-#   # Write FusionID and sequence for each row
-#   for (i in 1:nrow(fusion_data)) {
-#     cat(">", fusion_data$FusionID[i], "\n", fusion_data$Fusion_sequence_no_asterisk[i], "\n", file = con, append = TRUE, sep = "")
-#   }
-#   
-#   # Close the file connection
-#   close(con)
-# }
-# 
-# writeFASTA("/Users/colettemoses/Desktop/Luca_Mayo_FusionCatcher/fusion_junctions_BLAT.fasta", collapsed_by_FusionID_nonreadthrough_2ormore, append = TRUE)
 
 ########################################################################################################################
 
