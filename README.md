@@ -105,8 +105,8 @@
 - Python (v3.8.19) *Note: Requires Python 3.8.19 for compatibility.*  
 - Bowtie2 (v2.4.2)  
 - Samtools (v1.17)  
-- Pysam  
-- Biopython  
+- Pysam (built-in Python)
+- Biopython (built-in Python)
 - Multiprocessing (built-in Python)  
 - gzip (built-in Python)  
 - Bash (v4.4.20(1)-release)  
@@ -203,8 +203,8 @@
 13. sed (built-in v4.5)  
 14. SLURM Workload Manager (v23.11.10)  
 15. Python (v3.9.17)  
-    - Pysam  
-    - Biopython  
+    - Pysam (built-in)
+    - Biopython (built-in)
     - glob (built-in)  
     - datetime (built-in)  
     - collections (built-in)  
