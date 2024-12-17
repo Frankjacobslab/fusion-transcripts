@@ -474,162 +474,15 @@ kpAddCytobandsAsLine(kp)
 kpPlotLinks(kp, data=links1, data2=links2, col=links.col, border=links.col, r0=-0.1, r1=1.1)
 
 # Export to pdf
-pdf("/Users/colettemoses/Desktop/karyoplot_bowtie2_mayo_717_all.pdf")
+pdf("/path/to/output/file/")
 kp <- plotKaryotype(genome="hg38", plot.type=1, plot.params=pp, ideogram.plotter=NULL)
 kpAddCytobandsAsLine(kp)
 kpPlotLinks(kp, data=links1, data2=links2, col=links.col, border=links.col, r0=-0.1, r1=1.1)
 dev.off()
 
-# pdf("/Users/colettemoses/Desktop/karyoplot_chr17.pdf")
-# kp <- plotKaryotype(genome="hg38", plot.type=1, plot.params=pp, ideogram.plotter=NULL, chromosomes="chr17")
-# kpAddCytobandsAsLine(kp)
-# kpPlotLinks(kp, data=links1, data2=links2, col=links.col, border=links.col, r0=-0.1, r1=1.1)
-# dev.off()
-
-# ## Fusion locations (to import into Illustrator)
-# 
-# # Import coordinates from Excel
-# genestocoords <- as.data.frame(read_excel("/Users/colettemoses/Desktop/Work/EMBO-ENW_project/Dry_lab/fusion_analysis/R_scripts_fusioncatcher_mayo/genestocoord_consolidated.xlsx"))
-# 
-# # Extract chromosome, position, and fusion pairs
-# chrs <- genestocoords$Chromosome_1.5end_partner
-# pos <- genestocoords$Position_on_chromosome_1.5end_partner
-# fusion <- genestocoords$FusionPair
-# markers <- data.frame(chr=chrs, pos=pos, labels=fusion)
-# 
-# # Plotting karyotypes for specific chromosomes
-# chromosomes_to_plot <- c("chr5", "chr16", "chr17", "chr22")
-# for (chromosome in chromosomes_to_plot) {
-#   kp <- plotKaryotype(genome="hg38", chromosomes=chromosome, plot.type=1, plot.params=pp)
-#   kpPlotMarkers(kp, chr=chrs, x=pos, labels=fusion, adjust.label.position=FALSE)
-# }
-
 ########################################################################################################################
 
-# ## Figure 1 heatmaps
-# 
-# ## All fusions: FusionCatcher results
-# 
-# # Filter fusioncatcher_raw based on FusionID
-# fusioncatcher_raw_filtered <- fusioncatcher_raw[fusioncatcher_raw$FusionID %in% collapsed_by_FusionID_filtered_rmsk_2ormore$FusionID, ]
-# 
-# # Convert values to numeric
-# fusioncatcher_raw_filtered$Position_on_chromosome_1.5end_partner <- as.numeric(fusioncatcher_raw_filtered$Position_on_chromosome_1.5end_partner)
-# fusioncatcher_raw_filtered$Spanning_unique_reads <- as.numeric(fusioncatcher_raw_filtered$Spanning_unique_reads)
-# fusioncatcher_raw_filtered$Chromosome_1.5end_partner_numeric <- as.numeric(fusioncatcher_raw_filtered$Chromosome_1.5end_partner)
-# 
-# # Reformat FusionID to be more readable
-# fusioncatcher_raw_filtered$FusionID_reformatted <- paste(fusioncatcher_raw_filtered$Gene_1_symbol.5end_fusion_partner,
-#                                                "-", 
-#                                                fusioncatcher_raw_filtered$Gene_2_symbol.3end_fusion_partner,
-#                                                " chr",
-#                                                fusioncatcher_raw_filtered$Chromosome_1.5end_partner,
-#                                                ":",
-#                                                fusioncatcher_raw_filtered$Position_on_chromosome_1.5end_partner,
-#                                                "-",
-#                                                fusioncatcher_raw_filtered$Position_on_chromosome_2.3endpartner,
-#                                                sep = "")
-# 
-# # Function to create heatmap
-# create_heatmap <- function(data, name){
-#   # Order data by chromosome position
-#   data <- data[order(data$Chromosome_1.5end_partner_numeric, data$Position_on_chromosome_1.5end_partner), ]
-#   
-#   # Select necessary columns
-#   short <- data %>%
-#     select(FileName, FusionID_reformatted, Spanning_unique_reads)
-#   
-#   # Create pivot table
-#   pivot_data <- pivot_wider(short, names_from = FusionID_reformatted, values_from = Spanning_unique_reads, values_fill = 0)
-#   
-#   # Print the pivot table
-#   print(pivot_data)
-#   
-#   # Convert pivot data to matrix and transpose
-#   heatmap_matrix <- t(as.matrix(pivot_data[, -1]))  # Exclude FileName column
-#   
-#   # Set the color palette for the heatmap
-#   heatmap_colors <- colorRampPalette(c("#C8C8C880", "#025F99"))(100)
-#   
-#   # Extract column names from transposed matrix (files)
-#   labCol <- colnames(heatmap_matrix)
-#   
-#   # Extract row names from transposed matrix (fusion transcripts)
-#   labRow <- rownames(heatmap_matrix)
-#   
-#   # Plot the heatmap using heatmap.2 with the updated labCol and labRow
-#   heatmap.2(heatmap_matrix,
-#             col = heatmap_colors,
-#             scale = "none",
-#             cexCol = 0.1,
-#             cexRow = 0.2, 
-#             Rowv = FALSE,
-#             Colv = TRUE,
-#             labCol = rep(" ", ncol(heatmap_matrix)),
-#             labRow = labRow,
-#             key = FALSE, 
-#             trace = "none", 
-#             dendrogram = "none", 
-#             main = name,
-#             cex = 3)
-# }
-# 
-# # Loop over each chromosome
-# for (chr in c(1:22, "X")) {
-#   # Filter fusion data for the current chromosome
-#   filtered_data <- fusioncatcher_raw_filtered %>%
-#     filter(Chromosome_1.5end_partner == chr & Chromosome_2.3end_partner == chr)
-#   
-#   # Create heatmap for the current chromosome
-#   create_heatmap(filtered_data, paste("Fusion transcripts\nchromosome", chr))
-#   
-#   # Output heatmap to PDF
-#   pdf(paste0("/Users/colettemoses/Desktop/heatmaps/heatmap_chr_", chr, ".pdf"))
-#   create_heatmap(filtered_data, paste("Fusion transcripts\nchromosome", chr))
-#   dev.off()
-# }
-# 
-# # Create heatmap for transcripts on all chromosomes
-# create_heatmap(fusioncatcher_raw_filtered, paste("Fusion transcripts\nall chromosomes"))
-# 
-# # Output heatmap to PDF
-# pdf("/Users/colettemoses/Desktop/heatmaps/heatmap_all.pdf", width = 8, height = 40)
-# create_heatmap(fusioncatcher_raw_filtered, paste("Fusion transcripts\nall chromosomes"))
-# dev.off()
-# 
-# ## 'Non-readthrough' fusions
-# 
-# # Filter fusioncatcher_raw based on FusionID from non-readthrough
-# fusioncatcher_raw_filtered_nonreadthrough <- fusioncatcher_raw[fusioncatcher_raw$FusionID %in% collapsed_by_FusionID_nonreadthrough_2ormore$FusionID, ]
-# 
-# # Convert values to numeric
-# fusioncatcher_raw_filtered_nonreadthrough$Position_on_chromosome_1.5end_partner <- as.numeric(fusioncatcher_raw_filtered_nonreadthrough$Position_on_chromosome_1.5end_partner)
-# fusioncatcher_raw_filtered_nonreadthrough$Spanning_unique_reads <- as.numeric(fusioncatcher_raw_filtered_nonreadthrough$Spanning_unique_reads)
-# fusioncatcher_raw_filtered_nonreadthrough$Chromosome_1.5end_partner_numeric <- as.numeric(fusioncatcher_raw_filtered_nonreadthrough$Chromosome_1.5end_partner)
-# 
-# # Reformat FusionID to be more readable
-# fusioncatcher_raw_filtered_nonreadthrough$FusionID_reformatted <- paste(fusioncatcher_raw_filtered_nonreadthrough$Gene_1_symbol.5end_fusion_partner,
-#                                                          "-", 
-#                                                          fusioncatcher_raw_filtered_nonreadthrough$Gene_2_symbol.3end_fusion_partner,
-#                                                          " chr",
-#                                                          fusioncatcher_raw_filtered_nonreadthrough$Chromosome_1.5end_partner,
-#                                                          ":",
-#                                                          fusioncatcher_raw_filtered_nonreadthrough$Position_on_chromosome_1.5end_partner,
-#                                                          "-",
-#                                                          fusioncatcher_raw_filtered_nonreadthrough$Position_on_chromosome_2.3endpartner,
-#                                                          sep = "")
-# 
-# # Create heatmap for non-readthrough transcripts on all chromosomes
-# create_heatmap(fusioncatcher_raw_filtered_nonreadthrough, paste("Fusion transcripts\nnon-readthrough\nall chromosomes"))
-# 
-# # Output heatmap to PDF
-# pdf("/Users/colettemoses/Desktop/heatmaps/heatmap_all_nonreadthrough.pdf")
-# create_heatmap(fusioncatcher_raw_filtered_nonreadthrough, paste("Fusion transcripts\nnon-readthrough\nall chromosomes"))
-# dev.off()
-
-#################################################
-
-## All fusions: bowtie2 results
+## Figure 1 heatmaps
 
 # Reformat FusionID to be more readable
 collapsed_by_FusionID_filtered_rmsk_2ormore$FusionID_reformatted <- paste(collapsed_by_FusionID_filtered_rmsk_2ormore$Gene_1_symbol.5end_fusion_partner,
@@ -654,20 +507,15 @@ bowtie2_heatmap_data <- bowtie2_heatmap_data %>%
   dplyr::select(-c(278:296, 301:327)) # Change if necessary
 bowtie2_heatmap_data <- bowtie2_heatmap_data[, c(1, 278:281, 2:277)]
 
-# For hipsci only:
+# For Hipsci only:
 bowtie2_heatmap_data <- bowtie2_heatmap_data %>%
   dplyr::select(-c(193:211, 216:242)) # Change if necessary
 bowtie2_heatmap_data <- bowtie2_heatmap_data[, c(1, 193:196, 2:192)]
 
-# For comparative only:
+# For Comparative only:
 bowtie2_heatmap_data <- bowtie2_heatmap_data %>%
   dplyr::select(-c(42:60, 65:91))
 bowtie2_heatmap_data <- bowtie2_heatmap_data[, c(1, 42:45, 2:41)]
-
-# For combined Mayo and comparative:
-bowtie2_heatmap_data <- bowtie2_heatmap_data %>%
-  dplyr::select(-c(311:329, 334:360))
-bowtie2_heatmap_data <- bowtie2_heatmap_data[, c(1, 311:314, 2:310)]
 
 # Define the color palette function with a logarithmic scale
 heatmap_colors <- colorRampPalette(c("#C8C8C830", "#025F99"))
@@ -676,56 +524,6 @@ heatmap_colors <- colorRampPalette(c("#C8C8C830", "#025F99"))
 chromosomes <- c("chr1", "chr2", "chr3", "chr4", "chr5", "chr6", "chr7", "chr8", "chr9", "chr10",
                  "chr11", "chr12", "chr13", "chr14", "chr15", "chr16", "chr17", "chr18", "chr19",
                  "chr20", "chr21", "chr22", "chrX", "chrY")
-
-# # Function to create heatmap for a specific chromosome or all chromosomes with logarithmic color scaling
-# create_heatmap_bowtie2 <- function(data, chromosome = NULL, name) {
-#   if (!is.null(chromosome)) {
-#     # Filter data for the specified chromosome
-#     filtered_data <- data %>%
-#       filter(Chromosome_1.5end_partner == chromosome & Chromosome_2.3end_partner == chromosome)
-#   } else {
-#     # Use all data if chromosome is not specified
-#     filtered_data <- data
-#   }
-#   
-#   if (nrow(filtered_data) > 0) {
-#     # Order filtered data by Fusion_Transcript_Name
-#     filtered_data <- filtered_data[order(filtered_data$Position_on_chromosome_1.5end_partner), ]
-#     
-#     # Convert filtered data to matrix
-#     heatmap_matrix <- as.matrix(filtered_data[, -c(1:5)])  # Exclude metadata columns
-#     
-#     # Apply a logarithmic transformation to the data
-#     heatmap_matrix_log <- log(heatmap_matrix + 1)  # Add 1 to avoid log(0)
-#     
-#     # Set color palette for the heatmap with logarithmic scale
-#     heatmap_colors_log <- heatmap_colors(100)
-#     
-#     # Extract column names from transposed matrix (samples)
-#     labCol <- colnames(heatmap_matrix)
-#     
-#     # Extract row names from transposed matrix (fusion transcripts)
-#     labRow <- filtered_data$Fusion_Transcript_Name
-#     
-#     # Plot the heatmap using heatmap.2 with updated labCol and labRow
-#     heatmap.2(heatmap_matrix_log,
-#               col = heatmap_colors_log,
-#               scale = "none",
-#               cexCol = 0.1,
-#               cexRow = 0.2, 
-#               Rowv = FALSE,
-#               Colv = TRUE,
-#               labCol = rep(" ", ncol(heatmap_matrix)),
-#               labRow = labRow,
-#               key = FALSE, 
-#               trace = "none", 
-#               dendrogram = "none", 
-#               main = name,
-#               cex = 3)
-#   } else {
-#     cat("No data found for chromosome", chromosome, "\n")
-#   }
-# }
 
 # To disable automatic clustering of samples (for comparative analysis)
 # Function to create heatmap for a specific chromosome with logarithmic color scaling
@@ -814,102 +612,25 @@ column_labels <- column_order
 
 # Loop through each chromosome and create heatmap
 for (chromosome in chromosomes) {
-  pdf(paste0("/Users/colettemoses/Desktop/heatmaps/heatmap_comparative_bowtie2_", chromosome, ".pdf"))
+  pdf(paste0("path/to/output/file/[filename]", chromosome, ".pdf"))
   create_heatmap_bowtie2(bowtie2_heatmap_data, chromosome, paste("bowtie2", chromosome), column_order, column_labels)
   dev.off()
 }
-
-# for (chromosome in chromosomes) {
-#   pdf(paste0("/Users/colettemoses/Desktop/heatmaps/heatmap_", chromosome, ".pdf"))
-#   create_heatmap_bowtie2(bowtie2_heatmap_data, chromosome, paste("bowtie2", chromosome))
-#   dev.off()
-# }
-
-# # Generate heatmap for all chromosomes combined
-# pdf("/Users/colettemoses/Desktop/heatmaps/heatmap_all_chromosomes.pdf")
-# create_heatmap_bowtie2(bowtie2_heatmap_data, name = "All Chromosomes")
-# dev.off()
-
-# #### For linear colouring
-# 
-# # Function to create heatmap for a specific chromosome or all chromosomes without logarithmic color scaling
-# create_heatmap_bowtie2_linear <- function(data, chromosome = NULL, name) {
-#   if (!is.null(chromosome)) {
-#     # Filter data for the specified chromosome
-#     filtered_data <- data %>%
-#       filter(Chromosome_1.5end_partner == chromosome)
-#   } else {
-#     # Use all data if chromosome is not specified
-#     filtered_data <- data
-#   }
-#   
-#   if (nrow(filtered_data) > 0) {
-#     # Order filtered_data by Fusion_Transcript_Name
-#     filtered_data <- filtered_data[order(filtered_data$Position_on_chromosome_1.5end_partner), ]
-#     
-#     # Convert filtered_data to matrix
-#     heatmap_matrix <- as.matrix(filtered_data[, -c(1:5)])  # Exclude metadata columns
-#     
-#     # Set color palette for the heatmap without logarithmic scale
-#     heatmap_colors_linear <- heatmap_colors(100)
-#     
-#     # Extract column names from transposed matrix (samples)
-#     labCol <- colnames(heatmap_matrix)
-#     
-#     # Extract row names from transposed matrix (fusion transcripts)
-#     labRow <- filtered_data$Fusion_Transcript_Name
-#     
-#     # Plot the heatmap using heatmap.2 with updated labCol and labRow
-#     heatmap.2(heatmap_matrix,
-#               col = heatmap_colors_linear,
-#               scale = "none",
-#               cexCol = 0.1,
-#               cexRow = 0.2, 
-#               Rowv = FALSE,
-#               Colv = TRUE,
-#               labCol = rep(" ", ncol(heatmap_matrix)),
-#               labRow = labRow,
-#               key = FALSE, 
-#               trace = "none", 
-#               dendrogram = "none", 
-#               main = name,
-#               cex = 3)
-#   } else {
-#     cat("No data found for chromosome", chromosome, "\n")
-#   }
-# }
-# 
-# # Vector of chromosome names
-# chromosomes <- c("chr1", "chr2", "chr3", "chr4", "chr5", "chr6", "chr7", "chr8", "chr9", "chr10",
-#                  "chr11", "chr12", "chr13", "chr14", "chr15", "chr16", "chr17", "chr18", "chr19",
-#                  "chr20", "chr21", "chr22", "chrX", "chrY")
-# 
-# for (chromosome in chromosomes) {
-#   pdf(paste0("/Users/colettemoses/Desktop/heatmaps/heatmap_", chromosome, ".pdf"))
-#   create_heatmap_bowtie2_linear(bowtie2_heatmap_data, chromosome, paste("bowtie2", chromosome))
-#   dev.off()
-# }
 
 #########################################################
 
 # To generate a heatmap of fusions where there was no expression seen in chimps and high expression in humans:
 
-# Calculating the frequency of transcript expression so that selecting 20 chimp individuals with no expression p < 0.05
-root_value <- 0.05^(1/20)
-# OR
-root_value <- 0.05^(1/33)
+# Calculating the frequency of transcript expression so that selecting 20 chimp individuals with no expression p < 0.01
 root_value <- 0.01^(1/33)
 p <- 1 - root_value
-print(p) # p = 0.1391083 OR 0.08678119 OR 0.130251
+print(p) # p = 0.130251
 # p = 0.1391083 means that if the frequency of transcript X expression in the population is 13.9108% (or 8.678119%) or higher,
 # the probability of selecting 20 individuals with no expression is less than or equal to 0.05.
 # Any fusions that are expressed in more than 13.9108% of human individuals and zero chimp individuals are further candidates for human specificity.
 
 # Read the list of fusions exceeding this cutoff into a vector
-txt_file_path <- "/Users/colettemoses/Desktop/Good_scripts/Present_Mayo_greaterthan13pc.txt"
-txt_file_path_p.05 <- "/Users/colettemoses/Desktop/Good_scripts/Present_Mayo_greaterthan8.678119pc.txt"
-txt_file_path_p.01 <- "/Users/colettemoses/Desktop/Good_scripts/Present_Mayo_greaterthan13.0251pc.txt" # chimp and rhesus, p<0.01
-transcript_names_p.05 <- readLines(txt_file_path_p.05)
+txt_file_path_p.01 <- "/path/to/file/Present_Mayo_greaterthan13.0251pc.txt" # chimp and rhesus, p<0.01
 transcript_names_p.01 <- readLines(txt_file_path_p.01)
 
 # # Re-merge bowtie2_660_results_t with collapsed_by_FusionID_filtered_rmsk_2ormore using Fusion_Transcript_Name
@@ -926,15 +647,6 @@ bowtie2_heatmap_data_filtered_p.01 <- bowtie2_heatmap_data[bowtie2_heatmap_data$
 # bowtie2_heatmap_data_filtered <- bowtie2_heatmap_data_filtered %>%
 #   dplyr::select(-c(289:308, 313:339))
 # bowtie2_heatmap_data_filtered <- bowtie2_heatmap_data_filtered[, c(1, 289:292, 2:288)]
-
-# Filtering for all chimp samples = 0
-# columns_to_check <- grep("chimp", colnames(bowtie2_heatmap_data_filtered), value = TRUE, ignore.case = TRUE)
-# columns_to_check <- c("SRR1758917", "SRR5804451", "SRR5804456", "SRR5804464", 
-#                       "SRR5804471", "SRR5804478", "SRR5804486", "SRR6334913", 
-#                       "SRR6334974", "SRR6334986", "SRR6335020", "SRR6335047", 
-#                       "SRR2040584", "SRR2040585", "ERR3474012", "ERR3474022", 
-#                       "SRR17380399", "SRR17380400", "SRR17380401", "SRR17380402")
-# bowtie2_heatmap_data_chimpzero <- bowtie2_heatmap_data_filtered[apply(bowtie2_heatmap_data_filtered[columns_to_check], 1, function(row) all(row == 0)), ]
 
 # Filtering for all chimp and rhesus samples = 0
 columns_to_check <- grep("chimp|rhesus", colnames(bowtie2_heatmap_data_filtered_p.01), value = TRUE, ignore.case = TRUE)
@@ -959,7 +671,7 @@ chromosomes <- c("chr1", "chr2", "chr3", "chr4", "chr5", "chr6", "chr7", "chr8",
 # Loop through each chromosome and create heatmap
 for (chromosome in chromosomes) {
   # Create a PDF for each chromosome heatmap
-  pdf(paste0("/Users/colettemoses/Desktop/heatmaps/heatmap_", chromosome, ".pdf"))
+  pdf(paste0("/path/to/output/file/[filename]", chromosome, ".pdf"))
   
   # Create heatmap for the current chromosome
   create_heatmap_bowtie2(bowtie2_heatmap_data_chimprhesuszero, chromosome, paste("bowtie2", chromosome), column_order, column_labels)
@@ -975,7 +687,7 @@ collapsed_by_FusionID_filtered_rmsk_2ormore_HSp.05 <- collapsed_by_FusionID_filt
 collapsed_by_FusionID_filtered_rmsk_2ormore_HSp.01 <- collapsed_by_FusionID_filtered_rmsk_2ormore[collapsed_by_FusionID_filtered_rmsk_2ormore$FusionID_reformatted %in% humanspecificp.01, ]
 
 ## Write the data frames to Excel files
-HS_file_pathp0.05 <- "/Users/colettemoses/Desktop/Good_scripts/comparative/Mayo_FusionCatcher_compiled_2ormore_v2_HSp0.05.xlsx"
-HS_file_pathp0.01 <- "/Users/colettemoses/Desktop/Good_scripts/comparative/Mayo_FusionCatcher_compiled_2ormore_v2_HSp0.01.xlsx"
+HS_file_pathp0.05 <- "/path/to/output/file/"
+HS_file_pathp0.01 <- "/path/to/output/file/"
 write_xlsx(list(collapsed_by_FusionID_filtered_rmsk_2ormore_HSp.05), HS_file_pathp0.05, col_names = TRUE)
 write_xlsx(list(collapsed_by_FusionID_filtered_rmsk_2ormore_HSp.01), HS_file_pathp0.01, col_names = TRUE)
