@@ -314,9 +314,9 @@
     - subprocess (built-in)  
     - multiprocessing (built-in)  
     - csv (built-in)  
-    - **Note**: For `bowtie2_alignment` scripts, Python 3.8.19 is required.
     - matplotlib.pyplot (v3.9.0)
     - plotly (v5.23.0)
+    - **Note**: For `bowtie2_alignment` scripts, Python 3.8.19 is required; v3.9.17 is incompatible.
 16. R (v4.3.3)  
     - tidyverse (v2.0.0)  
     - dplyr (v1.1.4)  
