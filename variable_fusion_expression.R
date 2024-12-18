@@ -14,7 +14,7 @@ setwd("/path/to/working/directory")
 
 #################### Copy number information ########################################
 # Read the file
-data <- readLines("/path/to/output/from")
+data <- readLines("/path/to/output/from/calculate_ratios.py/")
 
 # Initialize variables to store data
 cell_lines <- c()
