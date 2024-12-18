@@ -109,7 +109,7 @@ for (region in unique(df_long$Region)) {
 #################### 17q21.31 SNP information ########################################
 
 # Read the VCF file into a dataframe
-pileup_results <- read.table("/Users/colettemoses/Desktop/Good_scripts/genotyping/H1H2_SNP_all_variants.vcf", header = TRUE, sep = "\t", stringsAsFactors = FALSE)
+pileup_results <- read.table("/path/to/output/from/H1H2_SNP_genotyping.py/", header = TRUE, sep = "\t", stringsAsFactors = FALSE)
 
 # Create a new dataframe to store the H1H2 status
 H1H2_status <- pileup_results %>%
@@ -189,7 +189,7 @@ for (region in unique(df_long$Region)) {
   ggsave(paste("coverage_ratios_grouped", gsub(":", "_", region), ".pdf", sep = ""), plot = p)
 }
 
-#################### 17q21.31 H1D (ONLY) genotyping based on CN ########################################
+#################### 17q21.31 H1D genotyping based on CN ########################################
 
 # Define the cell lines to highlight for each category
 blue_cell_lines <- c("HPSI1013i-wopl", "HPSI1014i-nosn", "HPSI1113i-hayt", "HPSI0913i-eika", "HPSI0314i-bubh")
@@ -253,7 +253,7 @@ p <- ggplot(df_merged, aes(x = CN_H1D_region, y = Ratio)) +
 # Save the plot
 ggsave("H1D_CN_17q2131_test_region_1_grouped.pdf", plot = p)
 
-#################### 17q21.31 H2D (ONLY) genotyping based on CN ########################################
+#################### 17q21.31 H2D genotyping based on CN ########################################
 
 # Define the cell lines to highlight for each category
 blue_cell_lines <- c("HPSI1013i-wopl", "HPSI1014i-nosn", "HPSI1113i-hayt", "HPSI0913i-eika", "HPSI0314i-bubh")
@@ -568,9 +568,9 @@ for (region_name in region_names) {
   ggsave(paste("NSF_CN_", region_name, "_grouped.pdf", sep = ""), plot = p)
 }
 
-#################### Results of bowtie2 search ########################################
+#################### Results of bowtie2 mapping ########################################
 
-bowtie2_counts <- readLines("/Users/colettemoses/Desktop/Good_scripts/bowtie2/Counts_pivot_2024-07-08_16-38-45_hipsci_fulllength_G,32,21.txt")
+bowtie2_counts <- readLines("/path/to/output/from/bowtie2_counts.py/")
 
 # Split each line by "\t" delimiter and convert to a dataframe
 data_list <- lapply(bowtie2_counts, function(x) unlist(strsplit(x, "\t")))
@@ -705,54 +705,6 @@ dunn_test_result <- dunnTest(KANSL1_ARL17 ~ H1Ddups,
                              method = "bonferroni")
 dunn_test_result
 
-# # Keeping y axis consistent:
-# 
-# # Calculate the maximum value across both categories
-# max_value <- max(max(bowtie2_counts_genotypes_long$Value[bowtie2_counts_genotypes_long$Category == "KANSL1_KANSL1_exon3"]),
-#                  max(bowtie2_counts_genotypes_long$Value[bowtie2_counts_genotypes_long$Category == "KANSL1_ARL17"]))
-# 
-# # Plotting with bar to mark mean and error bars for SEM, setting y-axis limits
-# plot <- ggplot(bowtie2_counts_genotypes_long, aes(x = H1Ddups, y = Value)) +
-#   geom_jitter(width = 0.3, height = 0, alpha = 0.7, shape = 1) +
-#   geom_bar(data = mean_se_values, aes(x = H1Ddups, y = mean_value), stat = "identity", fill = "red", alpha = 0.5, inherit.aes = FALSE) +  # Add bars for mean values
-#   geom_errorbar(data = mean_se_values, aes(x = H1Ddups, ymin = mean_value - sem, ymax = mean_value + sem), width = 0.2, inherit.aes = FALSE) +  # Add error bars for SEM
-#   facet_grid(Category ~ ., scales = "free_y") +
-#   labs(title = "Normalised Counts by Category",
-#        y = "Normalised Counts",
-#        x = "H1Ddups") +
-#   theme_minimal() +
-#   theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 1),
-#         axis.title.x = element_blank(),
-#         panel.grid.major.x = element_blank(),
-#         panel.grid.minor = element_blank(),
-#         panel.grid.major.y = element_line(size = 0.5)) +
-#   guides(color = FALSE) +  # Remove the legend for the color aesthetic
-#   ylim(0, max_value)  # Set y-axis limits
-# 
-# # Print the plot
-# print(plot)
-# ggsave("KANSL1-ARL17_fusion_bowtie2_G,32,21_ymax.pdf", plot = plot)
-
-# # Plotting with line to mark mean
-# plot <- ggplot(bowtie2_counts_genotypes_long, aes(x = H1Ddups, y = Value)) +
-#   geom_jitter(width = 0.3, height = 0, alpha = 0.7, shape = 1) +
-#   geom_point(data = mean_values, aes(x = H1Ddups, y = mean_value, color = "red"), shape = "-", size = 10) +  # Add mean values as points
-#   facet_grid(Category ~ ., scales = "free_y") +
-#   labs(title = "Normalised Counts by Category",
-#        y = "Normalised Counts",
-#        x = "H1Ddups") +
-#   theme_minimal() +
-#   theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 1),
-#         axis.title.x = element_blank(),
-#         panel.grid.major.x = element_blank(),
-#         panel.grid.minor = element_blank(),
-#         panel.grid.major.y = element_line(size = 0.5)) +
-# #  ylim(0, max_value) +
-#   guides(color = FALSE)  # Remove the legend for the color aesthetic
-# 
-# # Print the plot
-# print(plot)
-
 # H2D LRRC out-of-frame
 
 # Select the columns you want to add from df_categorized
@@ -822,34 +774,6 @@ dunn_test_result <- dunnTest(KANSL1_LRRC37A3_out_of_frame ~ H2Ddups,
                              method = "bonferroni")
 dunn_test_result
 
-# # Y max
-# 
-# # Calculate the maximum value across both categories
-# max_value <- max(max(bowtie2_counts_genotypes_long$Value[bowtie2_counts_genotypes_long$Category == "KANSL1_KANSL1_exon2"]),
-#                  max(bowtie2_counts_genotypes_long$Value[bowtie2_counts_genotypes_long$Category == "KANSL1_LRRC37A3_out_of_frame"]))
-# 
-# # Plotting with bar to mark mean and error bars for SEM, setting y-axis limits
-# plot <- ggplot(bowtie2_counts_genotypes_long, aes(x = H2Ddups, y = Value)) +
-#   geom_jitter(width = 0.3, height = 0, alpha = 0.7, shape = 1) +
-#   geom_bar(data = mean_se_values, aes(x = H2Ddups, y = mean_value), stat = "identity", fill = "red", alpha = 0.5, inherit.aes = FALSE) +  # Add bars for mean values
-#   geom_errorbar(data = mean_se_values, aes(x = H2Ddups, ymin = mean_value - sem, ymax = mean_value + sem), width = 0.2, inherit.aes = FALSE) +  # Add error bars for SEM
-#   facet_grid(Category ~ ., scales = "free_y") +
-#   labs(title = "Normalised Counts by Category",
-#        y = "Normalised Counts",
-#        x = "H2Ddups") +
-#   theme_minimal() +
-#   theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 1),
-#         axis.title.x = element_blank(),
-#         panel.grid.major.x = element_blank(),
-#         panel.grid.minor = element_blank(),
-#         panel.grid.major.y = element_line(size = 0.5)) +
-#   guides(color = FALSE) +  # Remove the legend for the color aesthetic
-#   ylim(0, max_value)  # Set y-axis limits
-# 
-# # Print the plot
-# print(plot)
-# ggsave("KANSL1-LRRC_outofframe_fusion_bowtie2_G,32,21_ymax.pdf", plot = plot)
-
 # H2D LRRC in-frame
 
 # Select the columns you want to add from df_categorized
@@ -914,36 +838,6 @@ dunn_test_result <- dunnTest(KANSL1_LRRC37A3_in_frame ~ H2Ddups,
                              data = bowtie2_counts_genotypes, 
                              method = "bonferroni")
 dunn_test_result
-
-# control result is above
-
-# # Y max
-# 
-# # Calculate the maximum value across both categories
-# max_value <- max(max(bowtie2_counts_genotypes_long$Value[bowtie2_counts_genotypes_long$Category == "KANSL1_KANSL1_exon2"]),
-#                  max(bowtie2_counts_genotypes_long$Value[bowtie2_counts_genotypes_long$Category == "KANSL1_LRRC37A3_in_frame"]))
-# 
-# # Plotting with bar to mark mean and error bars for SEM, setting y-axis limits
-# plot <- ggplot(bowtie2_counts_genotypes_long, aes(x = H2Ddups, y = Value)) +
-#   geom_jitter(width = 0.3, height = 0, alpha = 0.7, shape = 1) +
-#   geom_bar(data = mean_se_values, aes(x = H2Ddups, y = mean_value), stat = "identity", fill = "red", alpha = 0.5, inherit.aes = FALSE) +  # Add bars for mean values
-#   geom_errorbar(data = mean_se_values, aes(x = H2Ddups, ymin = mean_value - sem, ymax = mean_value + sem), width = 0.2, inherit.aes = FALSE) +  # Add error bars for SEM
-#   facet_grid(Category ~ ., scales = "free_y") +
-#   labs(title = "Normalised Counts by Category",
-#        y = "Normalised Counts",
-#        x = "H2Ddups") +
-#   theme_minimal() +
-#   theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 1),
-#         axis.title.x = element_blank(),
-#         panel.grid.major.x = element_blank(),
-#         panel.grid.minor = element_blank(),
-#         panel.grid.major.y = element_line(size = 0.5)) +
-#   guides(color = FALSE) +  # Remove the legend for the color aesthetic
-#   ylim(0, max_value)  # Set y-axis limits
-# 
-# # Print the plot
-# print(plot)
-# ggsave("KANSL1-LRRC_inframe_fusion_bowtie2_G,32,21_Ymax.pdf", plot = plot)
 
 # NSF-LRRC37A3
 
@@ -1011,197 +905,6 @@ dunn_test_result <- dunnTest(NSF_LRRC37A3 ~ CN_NSF_17q2131_test_region_3,
                              method = "bonferroni")
 dunn_test_result
 
-# # Y max
-# 
-# # Calculate the maximum value across both categories
-# max_value <- max(max(bowtie2_counts_genotypes_long$Value[bowtie2_counts_genotypes_long$Category == "NSF_NSF"]),
-#                  max(bowtie2_counts_genotypes_long$Value[bowtie2_counts_genotypes_long$Category == "NSF_LRRC37A3"]))
-# 
-# # Plotting with bar to mark mean and error bars for SEM, setting y-axis limits
-# plot <- ggplot(bowtie2_counts_genotypes_long, aes(x = CN_NSF_17q2131_test_region_3, y = Value)) +
-#   geom_jitter(width = 0.3, height = 0, alpha = 0.7, shape = 1) +
-#   geom_bar(data = mean_se_values, aes(x = CN_NSF_17q2131_test_region_3, y = mean_value), stat = "identity", fill = "red", alpha = 0.5, inherit.aes = FALSE) +  # Add bars for mean values
-#   geom_errorbar(data = mean_se_values, aes(x = CN_NSF_17q2131_test_region_3, ymin = mean_value - sem, ymax = mean_value + sem), width = 0.2, inherit.aes = FALSE) +  # Add error bars for SEM
-#   facet_grid(Category ~ ., scales = "free_y") +
-#   labs(title = "Normalised Counts by Category",
-#        y = "Normalised Counts",
-#        x = "CN_NSF_17q2131_test_region_3") +
-#   theme_minimal() +
-#   theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 1),
-#         axis.title.x = element_blank(),
-#         panel.grid.major.x = element_blank(),
-#         panel.grid.minor = element_blank(),
-#         panel.grid.major.y = element_line(size = 0.5)) +
-#   guides(color = FALSE) +  # Remove the legend for the color aesthetic
-#   ylim(0, max_value)  # Set y-axis limits
-# 
-# # Print the plot
-# print(plot)
-# ggsave("NSF-LRRC_fusion_nsfnorm_bowtie2_G,32,21_ymax.pdf", plot = plot)
-
-# # NSF-LRRC37A3 with NSFP1 normalisation
-# 
-# # Select the columns you want to add from df_categorized
-# columns_to_add <- c("CN_NSF_17q2131_test_region_3")
-# 
-# # Left join df_categorized to bowtie2_counts_df based on Prefix and Cell_Line, and select specific columns to add
-# bowtie2_counts_genotypes <- left_join(bowtie2_counts_normalised, dplyr::select(df_categorized, Cell_Line, all_of(columns_to_add)), by = c("Prefix" = "Cell_Line"))
-# 
-# # Select the columns you want to use
-# selected_columns <- c("Prefix", "NSFP1", "NSF_LRRC37A3_p1", "CN_NSF_17q2131_test_region_3")
-# 
-# # Subset the dataframe
-# bowtie2_counts_genotypes_subset <- bowtie2_counts_genotypes[selected_columns]
-# 
-# # Rearrange the filtered dataframe to long format
-# bowtie2_counts_genotypes_long <- bowtie2_counts_genotypes_subset %>%
-#   pivot_longer(cols = -c(Prefix, CN_NSF_17q2131_test_region_3),
-#                names_to = "Category",
-#                values_to = "Value")
-# 
-# # Filter to include only "NSFP1" and "NSF_LRRC37A3" categories
-# bowtie2_counts_genotypes_long <- bowtie2_counts_genotypes_long %>%
-#   filter(Category %in% c("NSFP1", "NSF_LRRC37A3_p1"))
-# 
-# # Find the maximum value across both categories
-# max_value <- max(max(bowtie2_counts_genotypes_long$Value[bowtie2_counts_genotypes_long$Category == "NSFP1"]),
-#                  max(bowtie2_counts_genotypes_long$Value[bowtie2_counts_genotypes_long$Category == "NSF_LRRC37A3_p1"]))
-# 
-# # Calculate mean for each group
-# mean_values <- bowtie2_counts_genotypes_long %>%
-#   group_by(CN_NSF_17q2131_test_region_3, Category) %>%
-#   summarise(mean_value = mean(Value, na.rm = TRUE))
-# 
-# # # Plotting
-# # plot <- ggplot(bowtie2_counts_genotypes_long, aes(x = CN_NSF_17q2131_test_region_3, y = Value)) +
-# #   geom_jitter(width = 0.3, height = 0, alpha = 0.7, shape = 1) +
-# #   geom_point(data = mean_values, aes(x = CN_NSF_17q2131_test_region_3, y = mean_value, color = "red"), shape = "-", size = 10) +  # Add mean values as points
-# #   facet_grid(Category ~ ., scales = "free_y") +
-# #   labs(title = "Normalised Counts by Category",
-# #        y = "Normalised Counts",
-# #        x = "CN_NSF_17q2131_test_region_3") +
-# #   theme_minimal() +
-# #   theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 1),
-# #         axis.title.x = element_blank(),
-# #         panel.grid.major.x = element_blank(),
-# #         panel.grid.minor = element_blank(),
-# #         panel.grid.major.y = element_line(size = 0.5)) +
-# #   guides(color = FALSE)  # Remove the legend for the color aesthetic
-# # 
-# # # Print the plot
-# # print(plot)
-# 
-# # Plotting with bar to mark mean
-# plot <- ggplot(bowtie2_counts_genotypes_long, aes(x = CN_NSF_17q2131_test_region_3, y = Value)) +
-#   geom_jitter(width = 0.3, height = 0, alpha = 0.7, shape = 1) +
-#   geom_bar(data = mean_values, aes(x = CN_NSF_17q2131_test_region_3, y = mean_value), stat = "identity", fill = "red", alpha = 0.5) +  # Add bars for mean values
-#   facet_grid(Category ~ ., scales = "free_y") +
-#   labs(title = "Normalised Counts by Category",
-#        y = "Normalised Counts",
-#        x = "CN_NSF_17q2131_test_region_3") +
-#   theme_minimal() +
-#   theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 1),
-#         axis.title.x = element_blank(),
-#         panel.grid.major.x = element_blank(),
-#         panel.grid.minor = element_blank(),
-#         panel.grid.major.y = element_line(size = 0.5)) +
-#   guides(color = FALSE)  # Remove the legend for the color aesthetic
-# 
-# # Print/save the plot
-# print(plot)
-# ggsave("NSF-LRRC_fusion_nsfp1norm_bowtie2.pdf", plot = plot)
-# 
-# # Perform the Kruskal-Wallis test
-# kruskal_test_result <- kruskal.test(NSF_LRRC37A3 ~ CN_NSF_17q2131_test_region_3, 
-#                                     data = bowtie2_counts_genotypes)
-# kruskal_test_result
-# 
-# kruskal_test_result_control <- kruskal.test(NSFP1 ~ CN_NSF_17q2131_test_region_3, 
-#                                     data = bowtie2_counts_genotypes)
-# kruskal_test_result_control
-# 
-# # Perform Dunn's test with Bonferroni correction
-# dunn_test_result <- dunnTest(NSF_LRRC37A3 ~ CN_NSF_17q2131_test_region_3, 
-#                              data = bowtie2_counts_genotypes, 
-#                              method = "bonferroni")
-# dunn_test_result
-# 
-# dunn_test_result_control <- dunnTest(NSFP1 ~ CN_NSF_17q2131_test_region_3, 
-#                              data = bowtie2_counts_genotypes, 
-#                              method = "bonferroni")
-# dunn_test_result_control
-
-# NAIP-OCLN normalised to NAIP
-
-# Select the columns you want to add from df_categorized
-columns_to_add <- c("CN_OCLNP1_region")
-
-# Left join df_categorized to bowtie2_counts_df based on Prefix and Cell_Line, and select specific columns to add
-bowtie2_counts_genotypes <- left_join(bowtie2_counts_normalised, dplyr::select(df_categorized, Cell_Line, all_of(columns_to_add)), by = c("Prefix" = "Cell_Line"))
-
-# Select the columns you want to use
-selected_columns <- c("Prefix", "NAIP_NAIP", "NAIP_OCLN", "CN_OCLNP1_region")
-
-# Subset the dataframe
-bowtie2_counts_genotypes_subset <- bowtie2_counts_genotypes[selected_columns]
-
-# Rearrange the filtered dataframe to long format
-bowtie2_counts_genotypes_long <- bowtie2_counts_genotypes_subset %>%
-  pivot_longer(cols = -c(Prefix, CN_OCLNP1_region), 
-               names_to = "Category", 
-               values_to = "Value")
-
-# Filter to include only "NAIP_NAIP" and "NAIP_OCLN" categories
-bowtie2_counts_genotypes_long <- bowtie2_counts_genotypes_long %>%
-  filter(Category %in% c("NAIP_NAIP", "NAIP_OCLN"))
-
-# Calculate mean and SEM for each group
-mean_se_values <- bowtie2_counts_genotypes_long %>%
-  group_by(CN_OCLNP1_region, Category) %>%
-  summarise(mean_value = mean(Value, na.rm = TRUE),
-            sem = sd(Value, na.rm = TRUE) / sqrt(n()))
-
-# Plotting with bar to mark mean and error bars for SEM
-plot <- ggplot(bowtie2_counts_genotypes_long, aes(x = CN_OCLNP1_region, y = Value)) +
-  geom_jitter(width = 0.3, height = 0, alpha = 0.7, shape = 1) +
-  geom_bar(data = mean_se_values, aes(x = CN_OCLNP1_region, y = mean_value), stat = "identity", fill = "red", alpha = 0.5, inherit.aes = FALSE) +  # Add bars for mean values
-  geom_errorbar(data = mean_se_values, aes(x = CN_OCLNP1_region, ymin = mean_value - sem, ymax = mean_value + sem), width = 0.2, inherit.aes = FALSE) +  # Add error bars for SEM
-  facet_grid(Category ~ ., scales = "free_y") +
-  labs(title = "Normalised Counts by Category",
-       y = "Normalised Counts",
-       x = "CN_OCLNP1_region") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 1),
-        axis.title.x = element_blank(),
-        panel.grid.major.x = element_blank(),
-        panel.grid.minor = element_blank(),
-        panel.grid.major.y = element_line(size = 0.5)) +
-  guides(color = FALSE)  # Remove the legend for the color aesthetic
-
-# Print the plot
-print(plot)
-ggsave("NAIP-OCLN_fusion_NAIPnorm_bowtie2_G,32,21.pdf", plot = plot)
-
-# Perform the Kruskal-Wallis test
-kruskal_test_result <- kruskal.test(NAIP_OCLN ~ CN_OCLNP1_region, 
-                                    data = bowtie2_counts_genotypes)
-kruskal_test_result
-
-kruskal_test_result_control <- kruskal.test(NAIP_NAIP ~ CN_OCLNP1_region, 
-                                            data = bowtie2_counts_genotypes)
-kruskal_test_result_control
-
-# Perform Dunn's test with Bonferroni correction
-dunn_test_result <- dunnTest(NAIP_OCLN ~ CN_OCLNP1_region, 
-                             data = bowtie2_counts_genotypes, 
-                             method = "bonferroni")
-dunn_test_result
-
-dunn_test_result_control <- dunnTest(NAIP_NAIP ~ CN_OCLNP1_region, 
-                             data = bowtie2_counts_genotypes, 
-                             method = "bonferroni")
-dunn_test_result_control
-
 # NAIP-OCLN normalised to OCLN
 
 # Select the columns you want to add from df_categorized
@@ -1267,33 +970,5 @@ dunn_test_result <- dunnTest(NAIP_OCLN ~ CN_OCLNP1_region,
                              data = bowtie2_counts_genotypes, 
                              method = "bonferroni")
 dunn_test_result
-
-# # Y max
-# 
-# # Calculate the maximum value across both categories
-# max_value <- max(max(bowtie2_counts_genotypes_long$Value[bowtie2_counts_genotypes_long$Category == "NAIP_NAIP"]),
-#                  max(bowtie2_counts_genotypes_long$Value[bowtie2_counts_genotypes_long$Category == "NAIP_OCLN_naip"]))
-# 
-# # Plotting with bar to mark mean and error bars for SEM, setting y-axis limits
-# plot <- ggplot(bowtie2_counts_genotypes_long, aes(x = CN_OCLNP1_region, y = Value)) +
-#   geom_jitter(width = 0.3, height = 0, alpha = 0.7, shape = 1) +
-#   geom_bar(data = mean_se_values, aes(x = CN_OCLNP1_region, y = mean_value), stat = "identity", fill = "red", alpha = 0.5, inherit.aes = FALSE) +  # Add bars for mean values
-#   geom_errorbar(data = mean_se_values, aes(x = CN_OCLNP1_region, ymin = mean_value - sem, ymax = mean_value + sem), width = 0.2, inherit.aes = FALSE) +  # Add error bars for SEM
-#   facet_grid(Category ~ ., scales = "free_y") +
-#   labs(title = "Normalised Counts by Category",
-#        y = "Normalised Counts",
-#        x = "CN_OCLNP1_region") +
-#   theme_minimal() +
-#   theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 1),
-#         axis.title.x = element_blank(),
-#         panel.grid.major.x = element_blank(),
-#         panel.grid.minor = element_blank(),
-#         panel.grid.major.y = element_line(size = 0.5)) +
-#   guides(color = FALSE) +  # Remove the legend for the color aesthetic
-#   ylim(0, max_value)  # Set y-axis limits
-# 
-# # Print the plot
-# print(plot)
-# ggsave("NAIP-OCLN_fusion_naipnorm_bowtie2_G,32,21_ymax.pdf", plot = plot)
 
 
