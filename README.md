@@ -37,39 +37,24 @@
 
 ### Fusion Peptide Detection: Ribosome Profiling Data
 
-5. Generation of Control Transcripts for Random Sampling
-- Retrieve Exon and Intron Coordinates
-     - Script: `final_posctrl_creation_0.sh` (Bash) and `final_posctrl_creation_python_to_run_with_0.py` (Python)
-     - Input: GENCODE v44 file
-     - Output: Extracts exon and intron coordinates for all genes.
-- Shuffle and Select Random Exon Junctions
-     - Script: `final_posctrl_creation_1.sh` (Bash)
-     - Randomly selects 717 exon junctions (43bp) and retrieves FASTA sequences.
-     - Additional Step: Retrieve ENSG IDs using Ensembl BioMart ([https://www.ensembl.org/biomart](https://www.ensembl.org/biomart/martview/e3d502e53e5b353cf21726a897d51ac4)).
-     - Manually add missing ENSG names.
-- Map ENSG Names to ENST Names
-     - Script: `final_posctrl_creation_2.py` (Python)
-     - Matches specific ENST names to their corresponding ENSG names.
-- Create FASTA File with Annotated Sequences
-     - Script: `final_posctrl_creation_3.sh` (Bash)
-     - Produces FASTA files with ENSG names and their corresponding sequences.
-- Generate Final FASTA Files
-   - Script: `final_posctrl_creation_4.py` (Python)
-   - Merges 43bp end and start sequences to produce 86bp final FASTA files.
+5. Generate Random Sets of Control Transcript Exon Junctions
+   - Retrieves exon and intron coordinates of exon junctions of all genes from GENCODE v44 (final_posctrl_creation_0.sh and final_posctrl_creation_python_to_run_with_0.py)
+   - Randomly selects same number control exon junctions as fusion transcript set (final_posctrl_creation_1.sh)
+   - Maps ENSG names to ENST names (final_posctrl_creation_2.py)
+   - Creates FASTA outputs with final control exon junction sequences (final_posctrl_creation_3.sh and final_posctrl_creation_4.py)
 
-6. Process Ribo-Seq Reads (Ribo-seq_FT.py):
-   - Processes a `.fastq` file containing Ribo-Seq (RS) reads.
+6. Align Ribo-Seq Reads to Fusion Transcript or Control Transcript Junction Sequences (Ribo-seq_FT.py):
+   - Processes fastq file containing Ribo-Seq reads.
    - Aligns reads to indexed transcripts using Bowtie2.
    - Converts SAM to BAM files, sorts, and indexes the BAM files.
    - Extracts reads for each transcript.
    - Saves results in structured directories:
-     - SAM/BAM files for each fusion transcript and sample combination.
-     - FASTA files with headers assigned based on the gene name the RS reads matched.
-  - Filters out RS reads not spanning the fusion junction of the Fusion Transcripts (FT) they matched.
+        - SAM/BAM files for each fusion transcript and sample combination.
+        - FASTA files with headers assigned based on the gene name the RS reads matched.
+   - Filters out Ribo-Seq reads that do not span the fusion junction.
 
-7. Positive control filtering with BlastN (Ribo-seq_pos_ctrl_BlastN.py):
-   - Screens positively selected RS reads mapping to control transcripts using BlastN.
-   - Determines whether the reads match only the corrensponding gene (same ENSG).
+7. Filter control transcript mapped reads with with BlastN (Ribo-seq_pos_ctrl_BlastN.py):
+   - Uses BlastN to identify and filter out Ribo-Seq reads that map to more than one Ensembl gene.
 
 ---
 
