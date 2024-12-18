@@ -10,11 +10,11 @@ library(ggrepel)
 library(car)
 library(FSA)
 
-setwd("/Users/colettemoses/Desktop")
+setwd("/path/to/working/directory")
 
 #################### Copy number information ########################################
 # Read the file
-data <- readLines("/Users/colettemoses/Desktop/Good_scripts/genotyping/ratios_all.txt")
+data <- readLines("/path/to/output/from")
 
 # Initialize variables to store data
 cell_lines <- c()
