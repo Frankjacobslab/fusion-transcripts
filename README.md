@@ -27,7 +27,7 @@
 
 ---
 
-### Fusion Transcript Validation: Long Read RNA-Seq Data
+### Fusion Transcript Detection: Long Read RNA-Seq Data
 
 4. Construct Transcript Models (isoquant.py):  
    - Uses FASTA files containing PacBio reads supporting fusion transcripts to construct transcript models.  
@@ -83,33 +83,33 @@
 
 ### Data Processing and Visualization
 
-11. FusionCatcher Processing (FusionCatcher_processing.R):  
-   - Takes outputs from all previous steps and combines them for visualization.  
+11. Visualize fusion transcript expression (FusionCatcher_processing.R):  
+   - Takes outputs from short-read RNA-Seq analysis and combines them for visualization.  
 
-12. Analyze Inter-Individual Variation in Fusion Transcript Expression (variable_fusion_expression.R):  
+12. Analyze Expression of Fusion Transcripts with Inter-Individual Variation (variable_fusion_expression.R):  
    - Focuses on fusion transcripts with inter-individual variation.  
-   - Combines outputs from previous steps for targeted visualization.
+   - Combines outputs from short-read RNA-Seq and WGS for targeted visualization.
 
-13. Coding potential bubble and pie chart (coding_potential_bubblechart.py, coding_potential_piechart.py)
-   - Number of fusion transcripts with distinct protein-coding potential detected in human brain RNA-seq, categorized by upstream and downstream fusion locations
+13. Visualize Coding Potential of Fusion Transcript Dataset (coding_potential_bubblechart.py and coding_potential_piechart.py)
+   - Categorizes protein-coding potential of fusion transcripts based on upstream and downstream fusion junction locations.
  
-14. Ribo-seq data Funnel Chart (Ribo-seq_funnelchart.py)
-   - Numbers of fusion transcripts and randomly selected control transcripts detected in ribosome profiling (Ribo-seq) data.
+14. Visualize Number of Control and Fusion Transcripts with Supporting Ribo-seq Reads (Ribo-seq_funnelchart.py)
+   - Illustrates numbers of fusion transcripts and randomly selected control transcripts detected in Ribo-seq data.
 
 ---
 
 ## Repository Contents
 
-### Fusion Gene Detection: Short Read RNA-Seq Data
+### Fusion Transcript Detection: Short Read RNA-Seq Data
 - fusioncatcher_run.sh  
 - bowtie2_alignment_mayo.py  
 - bowtie2_alignment_hipsci.py  
 - bowtie2_counts.py  
 
-### Fusion Validation: Long Read RNA-Seq Data
+### Fusion Transcript Detection: Long Read RNA-Seq Data
 - isoquant.py  
 
-### Ribo-Seq Analysis:
+### Fusion Peptide Detection: Ribosome Profiling Data
 - Ribo-seq_FT.py
 - Ribo-seq_pos_ctrl_BlastN.py
 - final_posctrl_creation_0.sh
@@ -132,7 +132,7 @@
 
 ## Dependencies
 
-### Fusion Gene Detection: Short Read RNA-Seq Data
+### Fusion Transcript Detection: Short Read RNA-Seq Data
 #### `fusioncatcher_run.sh`
 - FusionCatcher (v1.33)  
 - conda (v24.3.0)  
@@ -161,7 +161,7 @@
 
 ---
 
-### Fusion Validation: Long Read RNA-Seq Data
+### Fusion Transcript Detection: Long Read RNA-Seq Data
 #### `isoquant.py`
 - Python (v3.9.17)  
 - IsoQuant (v3.1.2)  
@@ -172,7 +172,7 @@
 
 ---
 
-### Ribo-Seq Analysis:
+### Fusion Peptide Detection: Ribosome Profiling Data
 #### `Ribo-seq_FT.py`
 - Python (v3.9.17)
 - conda (v24.3.0)  
