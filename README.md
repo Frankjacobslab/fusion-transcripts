@@ -127,7 +127,10 @@
 
 ### Data Processing and Visualization
 - FusionCatcher_processing.R  
-- variable_fusion_expression.R  
+- variable_fusion_expression.R
+- coding_potential_bubblechart.py
+- coding_potential_piechart.py
+- Ribo-seq_funnelchart.py
 
 ---
 
