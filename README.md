@@ -112,12 +112,13 @@
 ### Fusion Peptide Detection: Ribosome Profiling Data
 - Ribo-seq_FT.py
 - Ribo-seq_pos_ctrl_BlastN.py
-- final_posctrl_creation_0.sh
-- final_posctrl_creation_python_to_run_with_0.py
-- final_posctrl_creation_1.sh
-- final_posctrl_creation_2.py
-- final_posctrl_creation_3.sh
-- final_posctrl_creation_4.py
+- Ribo-seq_positive_control_generation:
+   - final_posctrl_creation_0.sh
+   - final_posctrl_creation_python_to_run_with_0.py
+   - final_posctrl_creation_1.sh
+   - final_posctrl_creation_2.py
+   - final_posctrl_creation_3.sh
+   - final_posctrl_creation_4.py
 
 ### Genotyping: WGS Data
 - coverage_analysis.sh  
